@@ -1,6 +1,10 @@
 package com.example.springbootsecurityjsonexample.security.filter;
 
+import com.example.springbootsecurityjsonexample.security.dto.UsernamePasswordDto;
 import com.example.springbootsecurityjsonexample.security.exception.IllegalRequestJsonLogin;
+import com.example.springbootsecurityjsonexample.security.exception.IllegalUsernamePassword;
+import com.example.springbootsecurityjsonexample.security.token.JsonAuthenticationToken;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -8,30 +12,38 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class JsonAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    protected JsonUsernamePasswordAuthenticationFilter() {
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public JsonAuthenticationFilter() {
         super(new AntPathRequestMatcher("/api/login"));
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        if (!isJsonPostRequest(request)) {
+        if (!isJsonAndPostRequest(request)) {
             throw new IllegalRequestJsonLogin("Authentication Request must have Json Header and POST method");
         }
 
+        UsernamePasswordDto usernamePasswordDto = objectMapper.readValue(request.getReader(), UsernamePasswordDto.class);
+        if (!StringUtils.hasText(usernamePasswordDto.getUsername()) || !StringUtils.hasText(usernamePasswordDto.getPassword())) {
+            throw new IllegalUsernamePassword("Username or Password is empty");
+        }
 
+        JsonAuthenticationToken token = new JsonAuthenticationToken(usernamePasswordDto.getUsername(), usernamePasswordDto.getPassword());
 
-        return null;
+        return getAuthenticationManager().authenticate(token);
     }
 
-    private boolean isJsonPostRequest(HttpServletRequest request) {
+    private boolean isJsonAndPostRequest(HttpServletRequest request) {
         return request.getHeader(HttpHeaders.CONTENT_TYPE).equals(MediaType.APPLICATION_JSON_VALUE)
                 && request.getMethod().equals(HttpMethod.POST.name());
     }
