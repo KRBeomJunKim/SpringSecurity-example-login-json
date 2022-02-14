@@ -2,7 +2,7 @@ package com.example.springbootsecurityjsonexample.security.service;
 
 import com.example.springbootsecurityjsonexample.domain.entity.Account;
 import com.example.springbootsecurityjsonexample.security.exception.IllegalUsernamePassword;
-import com.example.springbootsecurityjsonexample.web.account.repository.AccountRepository;
+import com.example.springbootsecurityjsonexample.domain.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,7 +1,7 @@
-package com.example.springbootsecurityjsonexample.web.account.service;
+package com.example.springbootsecurityjsonexample.domain.service;
 
 import com.example.springbootsecurityjsonexample.domain.entity.Account;
-import com.example.springbootsecurityjsonexample.web.account.repository.AccountRepository;
+import com.example.springbootsecurityjsonexample.domain.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

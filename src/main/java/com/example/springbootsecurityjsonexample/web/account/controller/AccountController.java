@@ -2,7 +2,7 @@ package com.example.springbootsecurityjsonexample.web.account.controller;
 
 import com.example.springbootsecurityjsonexample.domain.entity.Account;
 import com.example.springbootsecurityjsonexample.security.dto.UsernamePasswordDto;
-import com.example.springbootsecurityjsonexample.web.account.service.AccountService;
+import com.example.springbootsecurityjsonexample.domain.service.AccountService;
 import com.example.springbootsecurityjsonexample.security.dto.IdDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.example.springbootsecurityjsonexample.web.account.repository;
+package com.example.springbootsecurityjsonexample.domain.repository;
 
 import com.example.springbootsecurityjsonexample.domain.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
