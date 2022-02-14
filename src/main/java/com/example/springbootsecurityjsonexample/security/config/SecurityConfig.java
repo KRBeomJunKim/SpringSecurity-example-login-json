@@ -46,7 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .logout()
-                .logoutSuccessHandler(new JsonLogoutSuccessHandler());
+                .logoutUrl("/api/logout")
+                .logoutSuccessHandler(new JsonLogoutSuccessHandler())
+                .permitAll();
 
         http
                 .exceptionHandling()
